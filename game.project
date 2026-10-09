@@ -22,3 +22,6 @@ scale_mode = stretch
 [project]
 title = defold_browse_io
 
+[library]
+include_dirs = browser_io
+
