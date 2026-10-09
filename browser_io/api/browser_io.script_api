@@ -1,0 +1,133 @@
+- name: browser_io
+  type: table
+  desc: Callback-based browser clipboard and file I/O for Defold. Browser operations are available on HTML5 builds; capability functions report support in the current browser.
+  members:
+  - name: is_supported
+    type: function
+    desc: Returns true when the extension is running on an HTML5 build. This is a platform check; use can_* functions for individual browser capabilities.
+    returns:
+    - name: supported
+      type: boolean
+      desc: True on HTML5, false on other platforms.
+
+  - name: can_copy
+    type: function
+    desc: Returns true when clipboard text writing is available in the current browser context.
+    returns:
+    - name: supported
+      type: boolean
+      desc: True when browser_io.copy can be attempted.
+
+  - name: can_paste
+    type: function
+    desc: Returns true when clipboard text reading is available in the current browser context. Browser permission or user-gesture rules can still reject an individual request.
+    returns:
+    - name: supported
+      type: boolean
+      desc: True when browser_io.paste can be attempted.
+
+  - name: can_open_file
+    type: function
+    desc: Returns true when the browser exposes the APIs required to open and read a file.
+    returns:
+    - name: supported
+      type: boolean
+      desc: True when browser_io.open_file can be attempted.
+
+  - name: can_save_file
+    type: function
+    desc: Returns true when the browser exposes the APIs required to create a downloadable file.
+    returns:
+    - name: supported
+      type: boolean
+      desc: True when browser_io.save_file can be attempted.
+
+  - name: can_drop_files
+    type: function
+    desc: Returns true when the browser exposes drag-and-drop and file-reading APIs. This does not guarantee that external file dropping is practical on touch-only devices.
+    returns:
+    - name: supported
+      type: boolean
+      desc: True when drag-and-drop APIs are available.
+
+  - name: copy
+    type: function
+    desc: Copies UTF-8 text to the browser clipboard asynchronously. Call from a direct user interaction where required by the browser.
+    parameters:
+    - name: text
+      type: string
+      desc: Text to copy.
+    - name: callback
+      type: function
+      desc: Called as callback(self, result). result contains success, cancelled, operation, and error when applicable.
+    returns:
+    - name: request_id
+      type: number
+      desc: Request identifier.
+
+  - name: paste
+    type: function
+    desc: Reads UTF-8 text from the browser clipboard asynchronously. Call from a direct user interaction where required by the browser.
+    parameters:
+    - name: callback
+      type: function
+      desc: Called as callback(self, result). On success result.data contains the clipboard text and result.size contains its byte length.
+    returns:
+    - name: request_id
+      type: number
+      desc: Request identifier.
+
+  - name: open_file
+    type: function
+    desc: Opens the browser file picker and asynchronously reads one file. Supported forms are open_file(callback), open_file(nil, callback), and open_file(options, callback).
+    parameters:
+    - name: '[options]'
+      type: table
+      desc: Optional table. accept is an HTML accept string and max_size is the maximum file size in bytes. The default max_size is 16 MiB.
+    - name: callback
+      type: function
+      desc: Called as callback(self, result). On success result.name, result.data, and result.size are set. Empty files return data as an empty string and size as 0.
+    returns:
+    - name: request_id
+      type: number
+      desc: Request identifier.
+
+  - name: save_file
+    type: function
+    desc: Creates a browser download from a Lua string. Binary strings are supported. Supported forms are save_file(filename, data, callback), save_file(filename, data, nil, callback), and save_file(filename, data, options, callback).
+    parameters:
+    - name: filename
+      type: string
+      desc: Suggested downloaded filename.
+    - name: data
+      type: string
+      desc: File bytes.
+    - name: '[options]'
+      type: table
+      desc: Optional table. mime_type defaults to application/octet-stream.
+    - name: callback
+      type: function
+      desc: Called as callback(self, result) when the download has been handed to the browser.
+    returns:
+    - name: request_id
+      type: number
+      desc: Request identifier.
+
+  - name: set_drop_listener
+    type: function
+    desc: Registers a persistent file drag-and-drop listener on the browser window. Supported forms are set_drop_listener(callback), set_drop_listener(nil, callback), and set_drop_listener(options, callback).
+    parameters:
+    - name: '[options]'
+      type: table
+      desc: Optional table. accept filters dropped files and max_size limits the number of bytes read. The default max_size is 16 MiB.
+    - name: callback
+      type: function
+      desc: Called for each completed drop as callback(self, result). On success result.name, result.data, and result.size are set.
+    returns:
+    - name: enabled
+      type: boolean
+      desc: True when the listener was enabled on HTML5, false on unsupported build targets.
+
+  - name: cancel_drop_listener
+    type: function
+    desc: Removes the persistent drag-and-drop listener and releases its Lua callback.
