@@ -1,13 +1,21 @@
-# Welcome to Defold
 
-This project was created from the "empty" project template.
+**Browser IO** A Defold native extension for HTML5 that bridges your game with the browser's native file and clipboard APIs.
 
-The settings in ["game.project"](defold://open?path=/game.project) are all the default. A bootstrap empty ["main.collection"](defold://open?path=/main/main.collection) is included.
+**Features:**
 
-Check out [the documentation pages](https://defold.com/learn) for examples, tutorials, manuals and API docs.
+-   **Clipboard Access:** Read from and write to the system clipboard.
+    
+-   **File Dialogs:** Trigger native open and save/download prompts.
+    
+-   **Drag and Drop:** Persistent listeners for desktop file drop zones.
+    
+-   **Cross-Browser:** Supports modern desktop and mobile browsers (Chrome, Edge, Firefox, Safari) with built-in fallbacks for mobile touch environments.
+- **Asynchronous API:** Core operations are asynchronous and utilize a standard Lua callback mechanism.
 
-If you run into trouble, help is available in [our forum](https://forum.defold.com).
+Note: Drag-and-drop events are desktop-only, and some browsers (like Firefox) enforce strict permission prompts for reading the clipboard.
 
-Happy Defolding!
+## Installation
+[Installation ](https://github.com/alfowler1976/defold_browser_io/wiki/Installation)
 
----
+## API Reference
+[API Reference](https://github.com/alfowler1976/defold_browser_io/wiki/API)
